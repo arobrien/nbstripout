@@ -9,6 +9,7 @@ __all__ = ["pop_recursive", "strip_output", "strip_zeppelin_output", "StripArgs"
 class MetadataError(Exception):
     pass
 
+
 class StripArgs(NamedTuple):
     keep_output: bool
     keep_count: bool
@@ -16,7 +17,7 @@ class StripArgs(NamedTuple):
     drop_empty_cells: bool = False
     drop_tagged_cells: List[str] = []
     strip_init_cells: bool = False
-    max_size:int = 0
+    max_size: int = 0
 
 
 def pop_recursive(d, key, default=None):

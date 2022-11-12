@@ -11,6 +11,7 @@ INSTALL_LOCATION_LOCAL = 'local'
 INSTALL_LOCATION_GLOBAL = 'global'
 INSTALL_LOCATION_SYSTEM = 'system'
 
+
 def _get_system_gitconfig_folder():
     try:
         git_config_output = check_output(['git', 'config', '--system', '--list', '--show-origin'], universal_newlines=True, stderr=STDOUT).strip()

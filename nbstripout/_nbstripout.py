@@ -257,8 +257,7 @@ def main():
 
     extra_keys.extend(args.extra_keys.split())
 
-    strip_args = StripArgs(args.keep_output, args.keep_count, extra_keys, args.drop_empty_cells,
-                    args.drop_tagged_cells.split(), args.strip_init_cells, _parse_size(args.max_size))
+    strip_args = StripArgs(args.keep_output, args.keep_count, extra_keys, args.drop_empty_cells, args.drop_tagged_cells.split(), args.strip_init_cells, _parse_size(args.max_size))
 
     if args.files:
         for filename in args.files:
@@ -315,6 +314,7 @@ def process_file(filename, mode: str, dry_run: bool, textconv: bool, strip_args:
         print(f"Could not strip '{filename}'", file=sys.stderr)
         raise
 
+
 def process_stream(force: bool, mode: str, dry_run: bool, textconv: bool, strip_args: StripArgs):
     if not sys.stdin:
         raise ValueError("No files supplied, and could not open STDIN for reading")
@@ -354,17 +354,21 @@ def process_stream(force: bool, mode: str, dry_run: bool, textconv: bool, strip_
         print('No valid notebook detected', file=sys.stderr)
         raise SystemExit(1)
 
+
 def load_zepellin(input_stream: TextIO):
     return json.load(input_stream, object_pairs_hook=collections.OrderedDict)
+
 
 def write_zepellin(nb, output_stream: TextIO):
     json.dump(nb, output_stream, indent=2)
     output_stream.flush()
-    
+
+
 def load_jupyter(input_stream: TextIO):
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=UserWarning)
         return read(input_stream, as_version=NO_CONVERT)
+
 
 def write_jupyter(nb, output_stream: TextIO):
     with warnings.catch_warnings():
