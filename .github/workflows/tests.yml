@@ -50,6 +50,7 @@ jobs:
         # pytest
     - name: Prysk tests (POSIX)
       if: matrix.os != 'windows-latest'
+      shell: bash
       run: |
         prysk tests/
     - name: Prysk tests (Windows)
