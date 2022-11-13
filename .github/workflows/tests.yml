@@ -55,7 +55,7 @@ jobs:
       if: matrix.os == 'windows-latest'
     - name: Prysk tests (Windows)
       if: matrix.os == 'windows-latest'
-      shell: wsl-bash
+      shell: wsl-bash {0}
       env:
         NBSTRIPOUT_EXE: ${{ env.pythonLocation }}\Scripts\nbstripout.exe
       run: |
