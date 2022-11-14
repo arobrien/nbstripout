@@ -29,6 +29,8 @@ jobs:
     - name: Prysk tests (POSIX)
       if: matrix.os != 'windows-latest'
       shell: bash
+      env:
+        NBSTRIPOUT_EXE: nbstripout
       run: |
         prysk tests/
     - name: Prysk tests (Windows)
