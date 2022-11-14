@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ['3.6', '3.7', '3.8', '3.9', '3.10']
+        python-version: ['3.10']
 
     steps:
     - uses: actions/checkout@v3
@@ -26,25 +26,18 @@ jobs:
         python -m pip install .
     - name: Configure Git
       run: git config --global init.defaultBranch main
-    - name: Run tests (Linux)
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        pytest
-    - name: Run tests (MacOS)
-      if: matrix.os == 'macos-latest'
-      run: |
-        # Ignore test-hg.t as Mercurial is not installed
-        echo 'cramignore = test-hg.t' >> pytest.ini
-        pytest
-    - name: Run tests (Windows)
-      if: matrix.os == 'windows-latest'
+    - name: Prysk tests (POSIX)
+      if: matrix.os != 'windows-latest'
       shell: bash
       env:
+        NBSTRIPOUT_EXE: nbstripout
+      run: |
+        prysk tests/
+    - name: Prysk tests (Windows)
+      if: matrix.os == 'windows-latest'
+      shell: pwsh
+      env:
         NBSTRIPOUT_EXE: ${{ env.pythonLocation }}\Scripts\nbstripout.exe
-        CRAMSHELL: bash
       run: |
         git config --global core.autocrlf true
-        echo NBSTRIPOUT_EXE=${NBSTRIPOUT_EXE}
-        ${NBSTRIPOUT_EXE} --help
-        # cram is broken on Windows (#38)
-        # pytest
+        prysk --shell=bash tests/
