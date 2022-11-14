@@ -59,4 +59,4 @@ jobs:
       run: |
         git config --global core.autocrlf true
         bash -c "git status"
-        prysk --shell=PATH tests/
+        prysk --shell=bash tests/
