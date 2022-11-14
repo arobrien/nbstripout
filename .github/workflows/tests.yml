@@ -51,13 +51,12 @@ jobs:
       shell: bash
       run: |
         prysk tests/
-    - uses: Vampire/setup-wsl@v1
-      if: matrix.os == 'windows-latest'
     - name: Prysk tests (Windows)
       if: matrix.os == 'windows-latest'
-      shell: wsl-bash {0}
+      shell: bash
       env:
         NBSTRIPOUT_EXE: ${{ env.pythonLocation }}\Scripts\nbstripout.exe
       run: |
         git config --global core.autocrlf true
+        bash -c "git status"
         prysk --shell=PATH tests/
