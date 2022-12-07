@@ -5,7 +5,7 @@ import re
 import nbformat
 import pytest
 
-from nbstripout import strip_output, MetadataError
+from nbstripout import strip_output, StripArgs, MetadataError
 
 directory = os.path.dirname(__file__)
 
@@ -24,7 +24,8 @@ def nb_with_exception():
 
 def test_cells(orig_nb):
     nb_stripped = deepcopy(orig_nb)
-    nb_stripped = strip_output(nb_stripped, None, None)
+    strip_args = StripArgs(False, False)
+    nb_stripped = strip_output(nb_stripped, strip_args)
     for i, cell in enumerate(nb_stripped.cells):
         if cell.cell_type == 'code' and cell.source:
             match = re.match(r"\s*#\s*(output|no_output)", cell.source)
@@ -41,4 +42,5 @@ def test_cells(orig_nb):
 
 def test_exception(nb_with_exception):
     with pytest.raises(MetadataError):
-        strip_output(nb_with_exception, None, None)
+        strip_args = StripArgs(False, False)
+        strip_output(nb_with_exception, strip_args)
